@@ -29,8 +29,8 @@ def color_function(feature):
 
 def create_map():
     # Mengambil dua file shapefile
-    kec_banggae = gpd.read_file('KecBanggaeTimur\KecBanggaeTimur.shp')
-    wisata_majene = gpd.read_file('KecBanggaeTimur\WisataMajene.shp')
+    kec_banggae = gpd.read_file('KecBanggaeTimur/KecBanggaeTimur.shp')
+    wisata_majene = gpd.read_file('KecBanggaeTimur/WisataMajene.shp')
 
     # Mengubah CRS ke EPSG:3857 (Web Mercator)
     kec_banggae = kec_banggae.to_crs(epsg=4236)
