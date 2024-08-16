@@ -26,10 +26,15 @@ def color_function(feature):
         return '#A52A2A'  # Brown
     else:
         return '#FF00FF'  # Magenta
+
 def create_map():
     # Mengambil dua file shapefile
     kec_banggae = gpd.read_file('KecBanggaeTimur\KecBanggaeTimur.shp')
     wisata_majene = gpd.read_file('KecBanggaeTimur\WisataMajene.shp')
+
+    # Mengubah CRS ke EPSG:3857 (Web Mercator)
+    kec_banggae = kec_banggae.to_crs(epsg=4236)
+    wisata_majene = wisata_majene.to_crs(epsg=4236)
 
     # Mendapatkan koordinat tengah untuk peta
     center = [kec_banggae.geometry.centroid.y.mean(), kec_banggae.geometry.centroid.x.mean()]
@@ -53,7 +58,7 @@ def create_map():
         ),
     ).add_to(m)
 
-    # menampilkan label berdasarkan desa
+    # Menampilkan label berdasarkan desa
     for _, row in kec_banggae.iterrows():
         folium.Marker(
             location=[row.geometry.centroid.y, row.geometry.centroid.x],
@@ -65,7 +70,6 @@ def create_map():
             )
         ).add_to(m)
     
-
     # Menambahkan marker dari WisataMajene
     for _, row in wisata_majene.iterrows():
         folium.Marker(
@@ -76,7 +80,7 @@ def create_map():
 
     return m
 
-st.title("Kecematan Banggae Timur, Kabupaten Majene, Provinsi Sulawesi Barat\nMenerapkan peta wisata dan wilayah pada streamlit.")
+st.title("Kecamatan Banggae Timur, Kabupaten Majene, Provinsi Sulawesi Barat\nMenerapkan peta wisata dan wilayah pada streamlit.")
 
 map = create_map()
 st_folium(map, width=700, height=500)
